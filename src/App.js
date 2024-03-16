@@ -5,6 +5,8 @@ const initialItems = [
   { id: 3, description: "Charger", quantity: 12, packed: false },
 ];
 
+//temp
+
 function App() {
   const [items, setItems] = useState([]);
   function handleAddItem(item) {
