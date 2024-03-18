@@ -12,11 +12,14 @@ function App() {
   function handleAddItem(item) {
     setItems((items) => [...items, item]);
   }
+  function handleDelete(id) {
+    setItems((items) => items.filter((item) => item.id !== id));
+  }
   return (
     <div className="app">
       <Logo></Logo>
       <Form onAddItems={handleAddItem} />
-      <PackingList items={items} />
+      <PackingList items={items} onDeleteItem={handleDelete} />
       <Stats />
     </div>
   );
@@ -60,25 +63,26 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items }) {
+function PackingList({ items, onDeleteItem }) {
   return (
     <div className="list">
       <ul>
         {items.map((item) => (
-          <Item item={item} key={item.id} />
+          <Item item={item} onDeleteItem={onDeleteItem} key={item.id} />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item }) {
+function Item({ item, onDeleteItem }) {
   return (
     <li>
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.desc}
       </span>
-      <button>❌</button>
+      <button onClick={() => onDeleteItem(item.id)}>❌</button>
+      {/* //did the () so react only calls when event happens */}
     </li>
   );
 }
