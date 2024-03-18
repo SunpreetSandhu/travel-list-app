@@ -1,9 +1,4 @@
 import { useState } from "react";
-const initialItems = [
-  { id: 1, description: "Passports", quantity: 2, packed: false },
-  { id: 2, description: "Socks", quantity: 12, packed: true },
-  { id: 3, description: "Charger", quantity: 12, packed: false },
-];
 
 //temp
 
@@ -15,12 +10,23 @@ function App() {
   function handleDelete(id) {
     setItems((items) => items.filter((item) => item.id !== id));
   }
+  function handleToggleItem(id) {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
+  }
   return (
     <div className="app">
       <Logo></Logo>
       <Form onAddItems={handleAddItem} />
-      <PackingList items={items} onDeleteItem={handleDelete} />
-      <Stats />
+      <PackingList
+        items={items}
+        onDeleteItem={handleDelete}
+        onToggleItems={handleToggleItem}
+      />
+      <Stats items={items} />
     </div>
   );
 }
@@ -36,7 +42,6 @@ function Form({ onAddItems }) {
     e.preventDefault();
     if (!desc) return;
     const newItem = { desc, quantity, packed: false, id: Date.now() };
-    console.log(newItem);
     onAddItems(newItem);
 
     setDesc("");
@@ -63,21 +68,33 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items, onDeleteItem }) {
+function PackingList({ items, onDeleteItem, onToggleItems }) {
   return (
     <div className="list">
       <ul>
         {items.map((item) => (
-          <Item item={item} onDeleteItem={onDeleteItem} key={item.id} />
+          <Item
+            item={item}
+            onDeleteItem={onDeleteItem}
+            onToggleItems={onToggleItems}
+            key={item.id}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item, onDeleteItem }) {
+function Item({ item, onDeleteItem, onToggleItems }) {
   return (
     <li>
+      <input
+        type="checkbox"
+        value={item.packed}
+        onChange={() => {
+          onToggleItems(item.id);
+        }}
+      />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.desc}
       </span>
@@ -87,10 +104,12 @@ function Item({ item, onDeleteItem }) {
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  const numItems = items.length;
+
   return (
     <footer className="stats">
-      <em> You have x items on your list, you already packed x x%</em>
+      <em> You have {numItems} items on your list, you already packed x x%</em>
     </footer>
   );
 }
