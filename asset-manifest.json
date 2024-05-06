@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/SunpreetSandhu/travel-list-app/static/css/main.d37fe1a8.css",
+    "main.js": "/SunpreetSandhu/travel-list-app/static/js/main.3e706bb4.js",
+    "index.html": "/SunpreetSandhu/travel-list-app/index.html",
+    "main.d37fe1a8.css.map": "/SunpreetSandhu/travel-list-app/static/css/main.d37fe1a8.css.map",
+    "main.3e706bb4.js.map": "/SunpreetSandhu/travel-list-app/static/js/main.3e706bb4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d37fe1a8.css",
+    "static/js/main.3e706bb4.js"
+  ]
+}
